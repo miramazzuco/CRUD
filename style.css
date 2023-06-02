@@ -2,8 +2,8 @@
 
 body {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: flex-start;
+  align-items: center;
   height: 100vh;
   width: 100%;
   margin: 0;
@@ -12,6 +12,7 @@ body {
   background-image: url("https://wallpapercave.com/wp/wp2904133.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  flex-direction: column;
 }
 
 .form {
@@ -59,7 +60,7 @@ body {
 .title::after {
   width: 18px;
   height: 18px;
-  background-color: royalblue;
+  animation: pulse 1s linear infinite;
 }
 
 .message {
@@ -94,39 +95,81 @@ body {
   transition: 0.3s ease;
 }
 
-.form label .input:placeholder-shown + span{
-    top: 15px;
-    font-size: 0.9rem;
+.form label .input:placeholder-shown + span {
+  top: 15px;
+  font-size: 0.9rem;
 }
 
-.form label .input:focus +span, .form label .input:valid +span{
-    top: 30px;
-    font-size: 0.7rem;
-    font-weight: 600;
+.form label .input:focus + span,
+.form label .input:valid + span {
+  top: 30px;
+  font-size: 0.7rem;
+  font-weight: 600;
 }
 
-.submit{
-    border: none;
-    outline: none;
-    background-color: royalblue;
-    padding: 10px;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 1rem;
-    transform: .3s ease;
+.submit {
+  border: none;
+  outline: none;
+  background-color: royalblue;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  transform: 0.3s ease;
 }
 
-.submit:hover{
-    background-color: rgb(56, 90, 194);
+.submit:hover {
+  background-color: rgb(56, 90, 194);
 }
 
-@keyframes pulse{
-    from{
-        transform: scale(0.9);
-        opacity: 1;
-    }
-    to{
-        transform: scale(1.8);
-        opacity: 0;
-    }
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  opacity: 0.9;
+  font-weight: 700;
+  color: #222;
 }
+
+table,
+th,
+td {
+border: 1px solid rgba(105, 105, 105, 0.397);
+}
+
+title{
+  text-align: center;
+}
+
+.tabela{
+  border-radius: 10px;
+  background-color: #fff;
+  opacity: 0.9;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+table{
+  margin: 0;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  width: 120px;
+}
+
+IMG{
+  width: 28px;
+  height: 28px;
+  cursor: cursor;
+}
+
+
+
