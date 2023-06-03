@@ -122,6 +122,18 @@ body {
   background-color: rgb(56, 90, 194);
 }
 
+@keyframes pulse {
+  from{
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to{
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;

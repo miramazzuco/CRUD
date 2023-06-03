@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CRUD</title>
     <link rel="stylesheet" href="style.css" />
-    <script text="text/javascript" src="script.js"></script>
+    <script defer text="text/javascript" src="script.js"></script>
   </head>
   <body>
     <form class="form">
@@ -21,33 +21,56 @@
             type="text"
             class="input"
             style="width: 110px"
+            id="nome"
+            onchange="addNome()"
           />
           <span>Nome</span>
         </label>
         <label>
-          <input required placeholder="" type="text" class="input" />
+          <input
+            required
+            placeholder=""
+            type="text"
+            class="input"
+            id="sobrenome"
+            onchange="addSobrenome()"
+          />
           <span>Sobrenome</span>
         </label>
       </div>
 
       <label>
-        <input required placeholder="" type="text" class="input" />
+        <input
+          required
+          placeholder=""
+          type="text"
+          class="input"
+          id="fantasia"
+          onchange="addFantasia()"
+        />
         <span>Fantasia</span>
       </label>
       <label>
-        <input required placeholder="" type="text" class="input" />
+        <input
+          required
+          placeholder=""
+          type="text"
+          class="input"
+          id="local"
+          onchange="addLocal()"
+        />
         <span>Local</span>
       </label>
 
       <button class="submit">Cadastrar</button>
     </form>
-    <div class="tabela" >
-      <p class=" title" style = "margin:0">Tabela de Heróis</p>
+    <div class="tabela">
+      <p class="title" style="margin: 0">Tabela de Heróis</p>
       <table>
         <!--  CRIANDO TABELA -->
         <tr><!-- LINHAS-->
-          <th>NOME</th>
-          <th>SOBRENOME</th><!--COLUNAS-->
+          <th>NOME</th><!--COLUNAS-->
+          <th>SOBRENOME</th>
           <th>FANTASIA</th>
           <th>LOCAL</th>
           <th>EDITAR</th>
@@ -59,10 +82,10 @@
           <td>Homem-Aranha</td>
           <td>New York</td>
           <td>
-            <img src = "IMG/escrever (2).png">
+            <img src="IMG/escrever (2).png" />
           </td>
           <td>
-            <img src = "IMG/lixeira (2).png">
+            <img src="IMG/lixeira (2).png" />
           </td>
         </tr>
         <tr>
@@ -71,10 +94,10 @@
           <td>Homem de Ferro</td>
           <td>New York</td>
           <td>
-            <img src = "IMG/escrever (2).png">
+            <img src="IMG/escrever (2).png" />
           </td>
           <td>
-            <img src = "IMG/lixeira (2).png">
+            <img src="IMG/lixeira (2).png" />
           </td>
         </tr>
       </table>
