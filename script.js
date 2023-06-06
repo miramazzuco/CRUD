@@ -5,6 +5,7 @@ const inputNome = document.getElementById("nome");
 const inputSobrenome = document.getElementById("sobrenome");
 const inputFantasia = document.getElementById("fantasia");
 const inputLocal = document.getElementById("local");
+let urlPadrao = "http://localhost:5167/api/Personagens"
 
 
 function addNome(){
@@ -35,8 +36,8 @@ formulario.addEventListener("submit",(evento) => {
 
 const fetchRPG = async (id) => {
     const url = !id
-    ? "http://localhost:5204/PERSONAGENS"
-    : `http://localhost:5204/PERSONAGENS/${id}`;
+    ? urlPadrao
+    : `${urlPadrao}/${id}`;
 
     const APIresponse = await fetch (url);
     if (APIresponse.status === 200){
@@ -45,7 +46,14 @@ const fetchRPG = async (id) => {
     }
 };
 
-const buscaHerois = () => {};
+const buscaHerois = async () => {
+    const dados = await fetchRPG();
+
+    if(dados){
+        reendeniza(dados);
+    }
+
+};
 
 const registrar = async () => {
     let dadosFinais = {
@@ -64,15 +72,96 @@ const registrar = async () => {
         body: JSON.stringify(dadosFinais)//dadosfinais SE TORNOU UMA VARIAVEL UNICA
     };
 
-    await fetch("http://localhost:5204/PERSONAGENS", options)
+    await fetch(urlPadrao, options)
     .then((resp) => {
         resp.json()
     })
     .then((dados) => {
-        buscaHerois(dados);
+        reendeniza(dados);
     })
     .catch((error) => {
         alert(error.toString());
     })
 
 };
+
+const reendeniza = (dados) =>{
+
+    if(!dados){
+        const div = document.getElementById("tabela");
+
+        div.style.display = "none";
+    }else{
+        let table = document.getElementById("tabelaHerois");
+
+        while(table.firstChild){
+            table.removeChild(table.firstChild);
+        }
+
+        let tituloLinha = document.createElement("tr");
+
+        let titulo1 = document.createElement("th");
+        titulo1.texetContent = "Nome";
+        let titulo2 = document.createElement("th");
+        titulo2.texetContent = "Sobremome";
+        let titulo3 = document.createElement("th");
+        titulo3.texetContent = "Fantasia";
+        let titulo4 = document.createElement("th");
+        titulo4.texetContent = "Local";
+
+        tituloLinha.appendChild(titulo1);
+        tituloLinha.appendChild(titulo2);
+        tituloLinha.appendChild(titulo3);
+        tituloLinha.appendChild(titulo4);
+
+        table.appendChild(tituloLinha);
+
+        dados.forEach((heroi) => {
+
+            let dadosLinha = document.createElement("tr");
+
+            let dados1 = document.createElement("td");
+            dados1.textContent = heroi.nome;
+            let dados2 = document.createElement("td");
+            dados2.textContent = heroi.sobrenome;
+            let dados3 = document.createElement("td");
+            dados3.textContent = heroi.fantasia;
+            let dados4 = document.createElement("td");
+            dados4.textContent = heroi.local;
+
+            let editar = document.createElement("img");
+
+            editar.onclick = function(){
+                alert("Editando o herói de id " + heroi.id);
+            };
+
+            let excluir = document.createElement("img");
+
+            excluir.onclick = function(){
+                alert("Excluir o herói de id " + heroi.id);
+            };
+
+            editar.src = "IMG/escrever (2).png";
+            excluir.src = "IMG/lixeira (2).png";
+
+            let dados5 = document.createElement("td");
+            dados5.appendChild(editar)
+            let dados6 = document.createElement("td");
+            dados6.appendChild(excluir);
+
+            dadosLinha.appendChild(dados1);
+            dadosLinha.appendChild(dados2);
+            dadosLinha.appendChild(dados3);
+            dadosLinha.appendChild(dados4);
+            dadosLinha.appendChild(dados5);
+            dadosLinha.appendChild(dados6);
+            
+            table.appendChild(dadosLinha);
+        });
+
+    }
+};
+
+
+
+buscaHerois();
