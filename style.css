@@ -151,6 +151,7 @@ table,
 th,
 td {
 border: 1px solid rgba(105, 105, 105, 0.397);
+
 }
 
 title{
@@ -163,11 +164,15 @@ title{
   opacity: 0.9;
   padding: 1rem;
   margin-top: 1rem;
+  max-height: 300;
+  overflow: scroll;
+  
 }
 
 table{
   margin: 0;
   border-collapse: collapse;
+  
 }
 
 th,
@@ -181,6 +186,25 @@ img{
   width: 28px;
   height: 28px;
   cursor: cursor;
+}
+
+td{
+  font-style: italic;
+}
+
+::-webkit-scrollbar{
+  width: 10px;
+}
+
+::-webkit-scrollbar-track{
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  border: 1px solid #e7e7e7;
+}
+
+::-webkit-scrollbar-thumb{
+  border-radius: 6px;
+  background-color: royalblue;
 }
 
 
