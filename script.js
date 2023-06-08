@@ -1,54 +1,62 @@
-let nameHero, surnameHero, fantasy, locale;
+let nameHero, surnameHero, fantasy, locale, idEdicao;
 
 const formulario = document.querySelector(".form");
 const inputNome = document.getElementById("nome");
 const inputSobrenome = document.getElementById("sobrenome");
 const inputFantasia = document.getElementById("fantasia");
 const inputLocal = document.getElementById("local");
+const botao = document.getElementById("botao");
 let urlPadrao = "http://localhost:5160/api/Personagens";
 
 function addNome() {
   nameHero = inputNome.value;
-  nameHero = nameHero.toLowerCase();
+  nameHero = nameHero[0].toUpperCase() + nameHero.substring(1).toLowerCase();
   console.log(inputNome.value); //INSPECAO
 }
 
 function addSobrenome() {
   surnameHero = inputSobrenome.value;
-  surnameHero = surnameHero.toLowerCase();
+  surnameHero = surnameHero[0].toUpperCase() + surnameHero.substring(1).toLowerCase();
   console.log(inputSobrenome.value);
 }
 
 function addFantasia() {
   fantasy = inputFantasia.value;
-  fantasy = fantasy.toLowerCase();
+  fantasy = fantasy[0].toUpperCase() + fantasy.substring(1).toLowerCase();
   console.log(inputFantasia.value);
 }
 
 function addLocal() {
   locale = inputLocal.value;
-  locale = locale.toLowerCase();
+  locale = locale[0].toUpperCase() + locale.substring(1).toLowerCase();
   console.log(inputLocal.value);
 }
 
 formulario.addEventListener("submit", (evento) => {
   evento.preventDefault();
-  registrar();
+
+  if (botao.innerHTML.toString() == "Cadastrar") {
+    registrar();
+  } else {
+    editando();
+  }
+
   formulario.reset();
 });
 
 const fetchRPG = async (id) => {
-  const url = !id ? urlPadrao : `${urlPadrao}/${id}`;
+  const url = !id || id == 0 ? urlPadrao : `${urlPadrao}/${id}`;
 
   const APIresponse = await fetch(url);
+
   if (APIresponse.status === 200) {
     const dados = await APIresponse.json();
     return dados;
   }
 };
 
-const buscaHerois = async () => {
-  const dados = await fetchRPG();
+const buscaHerois = async (id) => {
+  const dados = await fetchRPG(id);
 
   if (dados) {
     reendeniza(dados);
@@ -84,30 +92,83 @@ const registrar = async () => {
     });
 };
 
-const exclusao = async (id) => {
-    let options = {
-        method: "DELETE", //METODO A SER USADO
-      };
+const edicao = async (id) => {
+  const dados = await fetchRPG(id);
 
-      await fetch(urlPadrao + "/" + id, options)
-      .then((resp) =>{
-        return resp.json();
-      })
-      .then((dados) =>{
-        reendeniza(dados);
-      })
-      .catch(() =>{
-        alert ("Não foi possivel excluir");
-      });
+
+  inputNome.value = dados.nome;
+  inputSobrenome.value = dados.sobrenome;
+  inputFantasia.value = dados.fantasia;
+  inputLocal.value = dados.local;
+  idEdicao = dados.id;
+
+  botao.innerText = "Editar";
+};
+
+const editando = async() =>{
+
+  let dadosFinais = {
+
+    id: idEdicao,
+    nome: inputNome.value,
+    sobrenome: inputSobrenome.value,
+    fantasia: inputFantasia.value,
+    local: inputLocal.value,
+  };
+
+  let options = {
+    method: "PUT", //METODO A SER USADO
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dadosFinais), //dadosfinais SE TORNOU UMA VARIAVEL UNICA
+  };
+
+  await fetch(urlPadrao + "/" + idEdicao, options)
+   .then((resp) =>{
+     if(resp.ok){
+       buscaHerois();
+     }
+   })
+   .catch((e) =>{
+     alert("Erro de pecinha" + e);
+   })
+   .finally(() =>{
+     formulario.reset()
+     botao.innerHTML = "Cadastrar";
+   });
+};
+
+const exclusao = async (id) => {
+  let options = {
+    method: "DELETE", //METODO A SER USADO
+  };
+
+  await fetch(urlPadrao + "/" + id, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((dados) => {
+      reendeniza(dados);
+    })
+    .catch(() => {
+      alert("Não foi possivel excluir");
+    });
 };
 
 const reendeniza = (dados) => {
-  if (!dados) {
+  if (!dados || dados.length == 0) {
     const div = document.getElementById("tabela");
     if (div) {
       div.style.display = "none";
     }
   } else {
+    const div = document.getElementById("tabela");
+
+    if (div) {
+      div.style.display = "block";
+    }
+
     let table = document.getElementById("tabelaHerois");
 
     while (table.firstChild) {
@@ -147,7 +208,7 @@ const reendeniza = (dados) => {
       let editar = document.createElement("img");
 
       editar.onclick = function () {
-        alert("Editando o herói de id " + heroi.id);
+        edicao(heroi.id);
       };
 
       let excluir = document.createElement("img");
@@ -175,9 +236,5 @@ const reendeniza = (dados) => {
     });
   }
 };
-
-
-
-
 
 buscaHerois();
